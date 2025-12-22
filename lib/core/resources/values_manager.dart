@@ -7,6 +7,7 @@ class Insets {
   static const double s16 = 16.0;
   static const double s18 = 18.0;
   static const double s20 = 20.0;
+  static const double s23 = 23.0;
 }
 
 class Sizes {
