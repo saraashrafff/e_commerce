@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton({super.key, required this.label});
+  const CustomElevatedButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
 
   final String label;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.r),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           label,
           style: getSemiBoldStyle(color: ColorManager.primary, fontSize: 20),

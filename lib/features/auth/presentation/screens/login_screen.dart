@@ -42,14 +42,15 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, Routes.register),
+                        onTap: () => Navigator.pushReplacementNamed(
+                          context,
+                          Routes.register,
+                        ),
                         child: Text(
                           'Create Account',
                           style: TextStyle(
                             color: ColorManager.white,
                             fontSize: 16.sp,
-                            decoration: TextDecoration.underline,
                             decorationColor: ColorManager.white,
                             fontStyle: FontStyle.italic,
                           ),
