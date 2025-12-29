@@ -1,6 +1,6 @@
 import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/font_manager.dart';
-import 'package:ecommerce/core/resources/styles_manager.dart' as stylesManager;
+import 'package:ecommerce/core/resources/styles_manager.dart' as styles_manager;
 import 'package:ecommerce/core/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,18 +21,18 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  late bool isObscure;
+  late bool _isObscure;
 
   @override
   void initState() {
     super.initState();
-    isObscure = widget.isPassword;
+    _isObscure = widget.isPassword;
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: isObscure,
+      obscureText: _isObscure,
       controller: widget.controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
@@ -45,16 +45,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(
-                  isObscure
+                  _isObscure
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
                   color: ColorManager.grey1,
                 ),
-                onPressed: () => setState(() => isObscure = !isObscure),
+                onPressed: () => setState(() => _isObscure = !_isObscure),
               )
             : null,
         hintText: 'enter your ${widget.hint}',
-        hintStyle: stylesManager.getLightStyle(
+        hintStyle: styles_manager.getLightStyle(
           color: ColorManager.darkGrey,
           fontSize: FontSize.s16,
         ),
