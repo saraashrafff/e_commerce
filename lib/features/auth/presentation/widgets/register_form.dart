@@ -3,25 +3,30 @@ import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_text_form_field.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _mobileNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     _nameController.dispose();
+    _mobileNumberController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
+
     super.dispose();
   }
 
@@ -34,14 +39,40 @@ class _LoginFormState extends State<LoginForm> {
 
         children: [
           Text(
-            'User Name',
+            'Full Name',
             style: getMediumStyle(
               color: ColorManager.white,
               fontSize: FontSize.s18,
             ),
           ),
           SizedBox(height: 24.h),
-          CustomTextFormField(hint: 'name', controller: _nameController),
+          CustomTextFormField(hint: 'full name', controller: _nameController),
+          SizedBox(height: 24.h),
+          Text(
+            'Mobile Number',
+            style: getMediumStyle(
+              color: ColorManager.white,
+              fontSize: FontSize.s18,
+            ),
+          ),
+          SizedBox(height: 24.h),
+          CustomTextFormField(
+            hint: 'mobile number',
+            controller: _mobileNumberController,
+          ),
+          SizedBox(height: 24.h),
+          Text(
+            'E-mail Address',
+            style: getMediumStyle(
+              color: ColorManager.white,
+              fontSize: FontSize.s18,
+            ),
+          ),
+          SizedBox(height: 24.h),
+          CustomTextFormField(
+            hint: 'e-mail address',
+            controller: _emailController,
+          ),
           SizedBox(height: 24.h),
           Text(
             'Password',
@@ -53,22 +84,11 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(height: 24.h),
           CustomTextFormField(
             hint: 'password',
-            isPassword: true,
             controller: _passwordController,
-          ),
-          SizedBox(height: 16.h),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'Forgot Password?',
-              style: getRegularStyle(
-                color: ColorManager.white,
-                fontSize: FontSize.s16,
-              ),
-            ),
+            isPassword: true,
           ),
           SizedBox(height: 56.h),
-          const CustomElevatedButton(label: 'Login'),
+          const CustomElevatedButton(label: 'Sign Up'),
         ],
       ),
     );
