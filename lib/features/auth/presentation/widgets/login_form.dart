@@ -1,8 +1,11 @@
 import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
+import 'package:ecommerce/core/routes/routes.dart';
+import 'package:ecommerce/core/utils/ui_utils.dart';
 import 'package:ecommerce/features/auth/data/models/login_request.dart';
 import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_state.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -71,18 +74,32 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(height: 56.h),
-          CustomElevatedButton(
-            label: 'Login',
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                context.read<AuthCubit>().login(
-                  LoginRequest(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  ),
-                );
+          BlocListener<AuthCubit, AuthState>(
+            listener: (BuildContext context, state) {
+              if (state is LoginLoading) {
+                UIUtils.showLoading(context);
+              } else if (state is LoginSuccess) {
+                UIUtils.hideLoading(context);
+                UIUtils.showMessage('Login Successful');
+                Navigator.pushReplacementNamed(context, Routes.home);
+              } else if (state is LoginError) {
+                UIUtils.hideLoading(context);
+                UIUtils.showMessage(state.message);
               }
             },
+            child: CustomElevatedButton(
+              label: 'Login',
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  context.read<AuthCubit>().login(
+                    LoginRequest(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),

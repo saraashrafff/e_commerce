@@ -1,8 +1,11 @@
 import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
+import 'package:ecommerce/core/routes/routes.dart';
+import 'package:ecommerce/core/utils/ui_utils.dart';
 import 'package:ecommerce/features/auth/data/models/register_request.dart';
 import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_state.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:flutter/widgets.dart';
@@ -91,20 +94,34 @@ class _RegisterFormState extends State<RegisterForm> {
             isPassword: true,
           ),
           SizedBox(height: 56.h),
-          CustomElevatedButton(
-            label: 'Sign Up',
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                context.read<AuthCubit>().register(
-                  RegisterRequest(
-                    name: _nameController.text,
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    phone: _mobileNumberController.text,
-                  ),
-                );
+          BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is RegisterLoading) {
+                UIUtils.showLoading(context);
+              } else if (state is RegisterSuccess) {
+                UIUtils.hideLoading(context);
+                UIUtils.showMessage('Account created successfully');
+                Navigator.pushReplacementNamed(context, Routes.home);
+              } else if (state is RegisterError) {
+                UIUtils.hideLoading(context);
+                UIUtils.showMessage(state.message);
               }
             },
+            child: CustomElevatedButton(
+              label: 'Sign Up',
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  context.read<AuthCubit>().register(
+                    RegisterRequest(
+                      name: _nameController.text,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      phone: _mobileNumberController.text,
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
